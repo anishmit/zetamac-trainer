@@ -91,12 +91,10 @@
           score++;
           scoreEl.textContent = 'Score: ' + score;
           answerEl.style.borderColor = '#00cc00';
+          setTimeout(function() { answerEl.style.borderColor = ''; }, 150);
           clearInterval(problemTimer);
-          setTimeout(function() {
-            answerEl.style.borderColor = '';
-            newProblem();
-            problemTimer = setInterval(newProblem, interval * 1000);
-          }, 150);
+          newProblem();
+          problemTimer = setInterval(newProblem, interval * 1000);
         }
       });
 
