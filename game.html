@@ -90,9 +90,13 @@
         if (answerEl.value.trim() !== '' && parseInt(answerEl.value) === correctAnswer) {
           score++;
           scoreEl.textContent = 'Score: ' + score;
+          answerEl.style.borderColor = '#00cc00';
           clearInterval(problemTimer);
-          newProblem();
-          problemTimer = setInterval(newProblem, interval * 1000);
+          setTimeout(function() {
+            answerEl.style.borderColor = '';
+            newProblem();
+            problemTimer = setInterval(newProblem, interval * 1000);
+          }, 150);
         }
       });
 
