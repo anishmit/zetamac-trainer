@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Arithmetic Game – Online Speed Drill</title>
+    <link href="app.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="game">
+      <span class="left">Seconds left: 120</span>
+      <span class="correct">Score: 0</span>
+      <div class="banner">
+        <div class="start">
+          <span class="problem"></span>
+          =
+          <input class="answer" />
+        </div>
+        <div class="end">
+          <p class="correct">Score: 0</p>
+          <p>
+            <a id="retry" href="game.html">Try again</a>
+            or <a href="index.html">change settings</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      var speed = parseInt(new URLSearchParams(location.search).get('speed'));
+      if (!(speed > 0)) speed = 120;
+      history.replaceState(null, '', 'game.html?speed=' + speed);
+      var interval = 120 / speed;
+      var duration = 10;
+      var score = 0;
+      var answer, correctAnswer, problemTimer, countdownTimer, timeLeft;
+
+      var problemEl = document.querySelector('.problem');
+      var answerEl = document.querySelector('.answer');
+      var leftEl = document.querySelector('span.left');
+      var scoreEl = document.querySelector('span.correct');
+      var startDiv = document.querySelector('.start');
+      var endDiv = document.querySelector('.end');
+      var endScore = document.querySelector('.end p.correct');
+      var banner = document.querySelector('.banner');
+
+      document.getElementById('retry').href = 'game.html?speed=' + speed;
+
+      function rand(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function newProblem() {
+        var type = rand(0, 3);
+        var a, b, op;
+        if (type === 0) {
+          a = rand(2, 100); b = rand(2, 100); op = '+';
+          correctAnswer = a + b;
+        } else if (type === 1) {
+          a = rand(2, 100); b = rand(2, 100);
+          correctAnswer = a;
+          a = a + b; op = '−';
+        } else if (type === 2) {
+          a = rand(2, 12); b = rand(2, 100); op = '×';
+          correctAnswer = a * b;
+        } else {
+          a = rand(2, 12); b = rand(2, 100);
+          correctAnswer = b;
+          b = a * b; op = '÷';
+          var tmp = a; a = b; b = tmp;
+        }
+        problemEl.textContent = a + ' ' + op + ' ' + b;
+        answerEl.value = '';
+        answerEl.focus();
+      }
+
+      function endGame() {
+        clearInterval(problemTimer);
+        clearInterval(countdownTimer);
+        startDiv.style.display = 'none';
+        endDiv.style.display = 'block';
+        banner.classList.add('wide');
+        endScore.textContent = 'Score: ' + score;
+      }
+
+      function updateCountdown() {
+        timeLeft--;
+        leftEl.textContent = 'Seconds left: ' + timeLeft;
+        if (timeLeft <= 0) endGame();
+      }
+
+      answerEl.addEventListener('input', function() {
+        if (answerEl.value.trim() !== '' && parseInt(answerEl.value) === correctAnswer) {
+          score++;
+          scoreEl.textContent = 'Score: ' + score;
+          clearInterval(problemTimer);
+          newProblem();
+          problemTimer = setInterval(newProblem, interval * 1000);
+        }
+      });
+
+      timeLeft = duration;
+      leftEl.textContent = 'Seconds left: ' + timeLeft;
+      newProblem();
+      problemTimer = setInterval(newProblem, interval * 1000);
+      countdownTimer = setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
