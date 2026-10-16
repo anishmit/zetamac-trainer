@@ -18,9 +18,11 @@
       <script>
         document.querySelector('.game-options').addEventListener('submit', function(e) {
           e.preventDefault();
-          var s = parseInt(document.getElementById('speed').value);
-          if (!(s > 0)) s = 120;
-          window.location.href = 'game.html?speed=' + s;
+          let speed = parseInt(document.querySelector('#speed').value);
+          if (!(speed > 0)) {
+            speed = 120;
+          }
+          window.location.href = 'game.html?speed=' + speed;
         });
       </script>
     </div>
