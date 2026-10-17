@@ -41,16 +41,20 @@ a:active {
   min-height: 300px;
 }
 #game span.left,
-#game span.correct {
+#game span.stats {
   font-size: 18px;
   position: absolute;
   top: 20px;
+  white-space: nowrap;
 }
 #game span.left {
   left: 20px;
 }
-#game span.correct {
+#game span.stats {
   right: 20px;
+}
+#game span.accuracy {
+  margin-left: 20px;
 }
 #game .banner {
   text-align: center;

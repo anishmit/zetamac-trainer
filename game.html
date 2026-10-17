@@ -7,7 +7,10 @@
   <body>
     <div id="game">
       <span class="left">Seconds left: 120</span>
-      <span class="correct">Score: 0</span>
+      <span class="stats">
+        <span class="correct">Score: 0</span>
+        <span class="accuracy">Accuracy: 100% (0/0)</span>
+      </span>
       <div class="banner">
         <div class="start">
           <span class="problem"></span>
@@ -33,6 +36,7 @@
       let duration = 120;
       let interval = duration / speed;
       let score = 0;
+      let missed = 0;
       let timeLeft = duration;
       let correctAnswer;
       let problemTimer;
@@ -42,6 +46,7 @@
       let answerEl = document.querySelector('.answer');
       let leftEl = document.querySelector('span.left');
       let scoreEl = document.querySelector('span.correct');
+      let accuracyEl = document.querySelector('span.accuracy');
       let startDiv = document.querySelector('.start');
       let endDiv = document.querySelector('.end');
       let endScore = document.querySelector('.end p.correct');
@@ -52,6 +57,12 @@
 
       function rand(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function updateAccuracy() {
+        const total = score + missed;
+        const percent = total === 0 ? 100 : Math.round(score * 100 / total);
+        accuracyEl.textContent = 'Accuracy: ' + percent + '% (' + score + '/' + total + ')';
       }
 
       function resetAnswer() {
@@ -100,6 +111,8 @@
       }
 
       function repeatProblem() {
+        missed++;
+        updateAccuracy();
         flash();
         resetAnswer();
       }
@@ -125,6 +138,7 @@
         if (parseInt(answerEl.value) === correctAnswer) {
           score++;
           scoreEl.textContent = 'Score: ' + score;
+          updateAccuracy();
           flash();
           newProblem();
           restartProblemTimer();
@@ -132,6 +146,7 @@
       });
 
       leftEl.textContent = 'Seconds left: ' + timeLeft;
+      updateAccuracy();
       newProblem();
       restartProblemTimer();
       countdownTimer = setInterval(updateCountdown, 1000);
