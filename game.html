@@ -47,6 +47,7 @@
       let answerEl = document.querySelector('.answer');
       let leftEl = document.querySelector('span.left');
       let scoreEl = document.querySelector('span.correct');
+      let accuracyEl = document.querySelector('span.accuracy');
       let fractionEl = document.querySelector('span.fraction');
       let percentEl = document.querySelector('span.percent');
       let startDiv = document.querySelector('.start');
@@ -59,6 +60,10 @@
 
       function rand(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function alignAccuracy() {
+        accuracyEl.style.left = problemEl.offsetLeft + problemEl.offsetWidth / 2 + 'px';
       }
 
       function updateAccuracy() {
@@ -98,6 +103,7 @@
           correctAnswer = b;
         }
         problemEl.textContent = problemText;
+        alignAccuracy();
         resetAnswer();
       }
 
