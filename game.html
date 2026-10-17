@@ -63,6 +63,9 @@
       }
 
       function alignAccuracy() {
+        if (problemEl.offsetWidth === 0) {
+          return;
+        }
         accuracyEl.style.left = problemEl.offsetLeft + problemEl.offsetWidth / 2 + 'px';
       }
 
@@ -153,6 +156,8 @@
           restartProblemTimer();
         }
       });
+
+      window.addEventListener('resize', alignAccuracy);
 
       leftEl.textContent = 'Seconds left: ' + timeLeft;
       updateAccuracy();
