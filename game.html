@@ -54,6 +54,11 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
 
+      function resetAnswer() {
+        answerEl.value = '';
+        answerEl.focus();
+      }
+
       function newProblem() {
         const operation = rand(0, 3);
         let problemText;
@@ -79,13 +84,12 @@
           correctAnswer = b;
         }
         problemEl.textContent = problemText;
-        answerEl.value = '';
-        answerEl.focus();
+        resetAnswer();
       }
 
       function restartProblemTimer() {
         clearInterval(problemTimer);
-        problemTimer = setInterval(newProblem, interval * 1000);
+        problemTimer = setInterval(resetAnswer, interval * 1000);
       }
 
       function flashCorrect() {
