@@ -54,7 +54,7 @@ a:active {
 }
 #game span.accuracy {
   position: absolute;
-  top: 126px;
+  top: 132px;
   transform: translateX(-50%);
   text-align: center;
   font-size: 36px;
