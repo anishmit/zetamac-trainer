@@ -8,7 +8,10 @@
     <div id="game">
       <span class="left">Seconds left: 120</span>
       <span class="correct">Score: 0</span>
-      <span class="accuracy">100% (0/0)</span>
+      <span class="accuracy">
+        <span class="fraction">0/0</span>
+        <span class="percent">100%</span>
+      </span>
       <div class="banner">
         <div class="start">
           <span class="problem"></span>
@@ -44,7 +47,8 @@
       let answerEl = document.querySelector('.answer');
       let leftEl = document.querySelector('span.left');
       let scoreEl = document.querySelector('span.correct');
-      let accuracyEl = document.querySelector('span.accuracy');
+      let fractionEl = document.querySelector('span.fraction');
+      let percentEl = document.querySelector('span.percent');
       let startDiv = document.querySelector('.start');
       let endDiv = document.querySelector('.end');
       let endScore = document.querySelector('.end p.correct');
@@ -60,7 +64,8 @@
       function updateAccuracy() {
         const total = score + missed;
         const percent = total === 0 ? 100 : Math.round(score * 100 / total);
-        accuracyEl.textContent = percent + '% (' + score + '/' + total + ')';
+        fractionEl.textContent = score + '/' + total;
+        percentEl.textContent = percent + '%';
       }
 
       function resetAnswer() {
