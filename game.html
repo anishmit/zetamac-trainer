@@ -92,15 +92,15 @@
         problemTimer = setInterval(repeatProblem, interval * 1000);
       }
 
-      function flash(color) {
-        answerEl.style.borderColor = color;
+      function flash() {
+        answerEl.style.borderColor = '#333333';
         setTimeout(function () {
           answerEl.style.borderColor = '';
         }, 150);
       }
 
       function repeatProblem() {
-        flash('#a85050');
+        flash();
         resetAnswer();
       }
 
@@ -125,7 +125,7 @@
         if (parseInt(answerEl.value) === correctAnswer) {
           score++;
           scoreEl.textContent = 'Score: ' + score;
-          flash('#4c8c4c');
+          flash();
           newProblem();
           restartProblemTimer();
         }
