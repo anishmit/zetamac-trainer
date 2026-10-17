@@ -7,10 +7,8 @@
   <body>
     <div id="game">
       <span class="left">Seconds left: 120</span>
-      <span class="stats">
-        <span class="correct">Score: 0</span>
-        <span class="accuracy">Accuracy: 100% (0/0)</span>
-      </span>
+      <span class="correct">Score: 0</span>
+      <span class="accuracy">100% (0/0)</span>
       <div class="banner">
         <div class="start">
           <span class="problem"></span>
@@ -62,7 +60,7 @@
       function updateAccuracy() {
         const total = score + missed;
         const percent = total === 0 ? 100 : Math.round(score * 100 / total);
-        accuracyEl.textContent = 'Accuracy: ' + percent + '% (' + score + '/' + total + ')';
+        accuracyEl.textContent = percent + '% (' + score + '/' + total + ')';
       }
 
       function resetAnswer() {
