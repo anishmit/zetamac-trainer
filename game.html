@@ -35,12 +35,12 @@
       history.replaceState(null, '', 'game.html?speed=' + speed);
 
       let duration = 120;
-      let interval = duration / speed;
+      let timeLimit = duration * 1000 / speed;
       let score = 0;
-      let missed = 0;
+      let inTime = 0;
       let timeLeft = duration;
       let correctAnswer;
-      let problemTimer;
+      let problemStart;
       let countdownTimer;
 
       let problemEl = document.querySelector('.problem');
@@ -70,15 +70,9 @@
       }
 
       function updateAccuracy() {
-        const total = score + missed;
-        const percent = total === 0 ? 100 : Math.round(score * 100 / total);
-        fractionEl.textContent = score + '/' + total;
+        const percent = score === 0 ? 100 : Math.round(inTime * 100 / score);
+        fractionEl.textContent = inTime + '/' + score;
         percentEl.textContent = percent + '%';
-      }
-
-      function resetAnswer() {
-        answerEl.value = '';
-        answerEl.focus();
       }
 
       function newProblem() {
@@ -107,12 +101,9 @@
         }
         problemEl.textContent = problemText;
         alignAccuracy();
-        resetAnswer();
-      }
-
-      function restartProblemTimer() {
-        clearInterval(problemTimer);
-        problemTimer = setInterval(repeatProblem, interval * 1000);
+        answerEl.value = '';
+        answerEl.focus();
+        problemStart = Date.now();
       }
 
       function flash() {
@@ -122,15 +113,7 @@
         }, 150);
       }
 
-      function repeatProblem() {
-        missed++;
-        updateAccuracy();
-        flash();
-        resetAnswer();
-      }
-
       function endGame() {
-        clearInterval(problemTimer);
         clearInterval(countdownTimer);
         startDiv.style.display = 'none';
         endDiv.style.display = 'block';
@@ -149,11 +132,13 @@
       answerEl.addEventListener('input', function() {
         if (parseInt(answerEl.value) === correctAnswer) {
           score++;
+          if (Date.now() - problemStart <= timeLimit) {
+            inTime++;
+            flash();
+          }
           scoreEl.textContent = 'Score: ' + score;
           updateAccuracy();
-          flash();
           newProblem();
-          restartProblemTimer();
         }
       });
 
@@ -162,7 +147,6 @@
       leftEl.textContent = 'Seconds left: ' + timeLeft;
       updateAccuracy();
       newProblem();
-      restartProblemTimer();
       countdownTimer = setInterval(updateCountdown, 1000);
     </script>
   </body>
