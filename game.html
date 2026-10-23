@@ -41,6 +41,7 @@
       let timeLeft = duration;
       let correctAnswer;
       let problemStart;
+      let lateTimer;
       let countdownTimer;
 
       let problemEl = document.querySelector('.problem');
@@ -75,6 +76,10 @@
         percentEl.textContent = percent + '%';
       }
 
+      function markLate() {
+        answerEl.style.backgroundColor = '#cccccc';
+      }
+
       function newProblem() {
         const operation = rand(0, 3);
         let problemText;
@@ -103,17 +108,14 @@
         alignAccuracy();
         answerEl.value = '';
         answerEl.focus();
+        answerEl.style.backgroundColor = '';
+        clearTimeout(lateTimer);
+        lateTimer = setTimeout(markLate, timeLimit);
         problemStart = Date.now();
       }
 
-      function flash() {
-        answerEl.style.borderColor = '#333333';
-        setTimeout(function () {
-          answerEl.style.borderColor = '';
-        }, 150);
-      }
-
       function endGame() {
+        clearTimeout(lateTimer);
         clearInterval(countdownTimer);
         startDiv.style.display = 'none';
         endDiv.style.display = 'block';
@@ -134,7 +136,6 @@
           score++;
           if (Date.now() - problemStart <= timeLimit) {
             inTime++;
-            flash();
           }
           scoreEl.textContent = 'Score: ' + score;
           updateAccuracy();
