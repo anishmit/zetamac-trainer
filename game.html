@@ -110,7 +110,7 @@
         answerEl.focus();
         answerEl.style.backgroundColor = '';
         clearTimeout(lateTimer);
-        lateTimer = setTimeout(markLate, timeLimit);
+        lateTimer = setTimeout(markLate, timeLimit + 1);
         problemStart = Date.now();
       }
 
